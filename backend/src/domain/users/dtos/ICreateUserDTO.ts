@@ -6,6 +6,8 @@ interface ICreateUserDTO {
   name: string;
 
   verification_code: string;
+
+  user_type_id: string;
 }
 
 export default ICreateUserDTO;

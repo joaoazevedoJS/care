@@ -1,5 +1,6 @@
 // repositories
 import './repositories/usersContainer';
+import './repositories/servicesContainer';
 
 // providers
 

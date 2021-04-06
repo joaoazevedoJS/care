@@ -33,12 +33,14 @@ class UsersRepository implements IUsersRepository {
     password,
     name,
     verification_code,
+    user_type_id,
   }: ICreateUserDTO): Promise<IUsers> {
     const user = this.repository.create({
       email,
       password,
       name,
       verification_code,
+      user_type_id,
     });
 
     await this.repository.save(user);

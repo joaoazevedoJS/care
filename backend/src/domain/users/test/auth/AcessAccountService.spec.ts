@@ -25,6 +25,7 @@ describe('AcessAccount', () => {
       name: 'test test',
       password: '@A4321test',
       verification_code: '123456',
+      user_type_id: '3',
     });
 
     const authenticated = await acessAccount.execute({
@@ -71,6 +72,7 @@ describe('AcessAccount', () => {
       name: 'test one',
       password: '4321test',
       verification_code: '123456',
+      user_type_id: '3',
     });
 
     await expect(

@@ -13,6 +13,8 @@ import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 import IUsersTypeRepository from '../repositories/IUsersTypeRepository';
 
 interface IRequest {
+  admin_id: string;
+
   email: string;
 
   password: string;
@@ -21,7 +23,7 @@ interface IRequest {
 }
 
 @injectable()
-class CreateUserService {
+class CreateDoctorService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -40,10 +42,19 @@ class CreateUserService {
   ) {}
 
   public execute = async ({
+    admin_id,
     email,
     password,
     name,
   }: IRequest): Promise<IUsers> => {
+    const admin = await this.usersRepository.findById(admin_id);
+
+    const isAdmin = await this.usersTypeRepository.getAdminTypeId();
+
+    if (!admin || admin.user_type_id !== isAdmin) {
+      throw new AppError('Only admin can register a doctor!', 401);
+    }
+
     const mailAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (mailAlreadyExists) {
@@ -54,14 +65,14 @@ class CreateUserService {
 
     const verification_code = this.generateCode.random(6);
 
-    const userType = await this.usersTypeRepository.getUserTypeId();
+    const doctorType = await this.usersTypeRepository.getDoctorTypeId();
 
     const user = await this.usersRepository.create({
       email,
       name,
       password: hashedPassword,
       verification_code,
-      user_type_id: userType,
+      user_type_id: doctorType,
     });
 
     const mailAccount = new IMailAccountCode({
@@ -75,4 +86,4 @@ class CreateUserService {
   };
 }
 
-export default CreateUserService;
+export default CreateDoctorService;

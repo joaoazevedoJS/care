@@ -22,6 +22,7 @@ describe('CreateUser', () => {
       name: 'test test',
       password: '@A4321test',
       verification_code: '123456',
+      user_type_id: '3',
     });
 
     await updateUserAvatar.execute({
@@ -65,6 +66,7 @@ describe('CreateUser', () => {
       email: 'test@test.com',
       password: '1234test',
       verification_code: '123456',
+      user_type_id: '3',
     });
 
     await updateUserAvatar.execute({

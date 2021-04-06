@@ -5,9 +5,15 @@ interface IAppointment {
 
   doctor_id: string;
 
+  user_id: string;
+
   time_minutes: number;
 
-  Date: Date;
+  date: Date;
+
+  created_at: Date;
+
+  updated_at: Date;
 }
 
 export default IAppointment;

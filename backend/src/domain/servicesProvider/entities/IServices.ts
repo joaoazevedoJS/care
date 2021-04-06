@@ -7,6 +7,8 @@ interface IService {
 
   price: number;
 
+  image: string;
+
   percentage_commission: number;
 
   created_at: Date;

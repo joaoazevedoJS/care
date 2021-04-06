@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 
 import IUsersRepository from '../repositories/IUsersRepository';
+import IUsersTypeRepository from '../repositories/IUsersTypeRepository';
 
 interface IRequest {
   user_id: string;
@@ -14,6 +15,8 @@ class UpdateUserConfirmationCodeService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+    @inject('UsersTypeRepository')
+    private usersTypeRepository: IUsersTypeRepository,
   ) {}
 
   public async execute({ user_id, code }: IRequest): Promise<void> {
@@ -31,8 +34,10 @@ class UpdateUserConfirmationCodeService {
       throw new AppError('Incorrect code', 401);
     }
 
-    if (user.email.match(/@care.com.br/gi)) {
-      ///
+    if (user.email.match(/@care\.com\.br/gi)) {
+      const adminType = await this.usersTypeRepository.getAdminTypeId();
+
+      user.user_type_id = adminType;
     }
 
     user.verified_account = true;

@@ -25,6 +25,7 @@ describe('Resend code', () => {
       name: 'test one',
       password: '@A4321test',
       verification_code: '123456',
+      user_type_id: '3',
     });
 
     const userTest = await resendCode.execute(user.id);
@@ -63,6 +64,7 @@ describe('Resend code', () => {
       name: 'test one',
       password: '@A4321test',
       verification_code: '123456',
+      user_type_id: '3',
     });
 
     user.verified_account = true;
@@ -88,6 +90,7 @@ describe('Resend code', () => {
       name: 'test one',
       password: '@A4321test',
       verification_code: '123456',
+      user_type_id: '3',
     });
 
     fakeRepository.updateResendcode({ user, code: user.verification_code });

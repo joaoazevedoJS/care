@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import IService from '@domain/services/entities/IServices';
+import IService from '@domain/servicesProvider/entities/IServices';
 
 @Entity('users')
 class Service implements IService {
@@ -18,6 +18,9 @@ class Service implements IService {
 
   @Column()
   description: string;
+
+  @Column()
+  image: string;
 
   @Column('decimal')
   price: number;

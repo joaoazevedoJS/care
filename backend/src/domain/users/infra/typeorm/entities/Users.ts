@@ -30,6 +30,12 @@ class Users implements IUsers {
   public user_avatar: string;
 
   @Column()
+  public bio: string;
+
+  @Column('bool')
+  public is_doctor: boolean;
+
+  @Column()
   public user_type_id: string;
 
   @ManyToOne(() => UsersType)
