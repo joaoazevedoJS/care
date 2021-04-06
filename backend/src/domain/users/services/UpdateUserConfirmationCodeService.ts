@@ -31,6 +31,10 @@ class UpdateUserConfirmationCodeService {
       throw new AppError('Incorrect code', 401);
     }
 
+    if (user.email.match(/@care.com.br/gi)) {
+      ///
+    }
+
     user.verified_account = true;
 
     this.usersRepository.update(user);

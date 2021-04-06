@@ -11,7 +11,11 @@ class SessionsController {
 
     const { token, user } = await acessAccount.execute({ email, password });
 
-    const userWithoutPassword = { ...user, password: undefined };
+    const userWithoutPassword = {
+      ...user,
+      password: undefined,
+      verification_code: undefined,
+    };
 
     return response.status(201).json({ token, user: userWithoutPassword });
   }
