@@ -1,11 +1,16 @@
-import IUsers from '@domain/users/entities/IUsers';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import IUsers from '@domain/users/entities/IUsers';
+
+import UsersType from './UsersType';
 
 @Entity('users')
 class Users implements IUsers {
@@ -23,6 +28,19 @@ class Users implements IUsers {
 
   @Column()
   public user_avatar: string;
+
+  @Column()
+  public bio: string;
+
+  @Column('bool')
+  public is_doctor: boolean;
+
+  @Column()
+  public user_type_id: string;
+
+  @ManyToOne(() => UsersType)
+  @JoinColumn({ name: 'user_type_id' })
+  public user_type: UsersType;
 
   @Column('bool')
   public verified_account: boolean;

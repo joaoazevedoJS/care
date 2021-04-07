@@ -23,9 +23,13 @@ class UsersController {
       name,
     });
 
-    const userWithoutPassword = { ...user, password: undefined };
+    const userWithoutPasswordAndCode = {
+      ...user,
+      password: undefined,
+      verification_code: undefined,
+    };
 
-    return response.status(201).json({ user: userWithoutPassword });
+    return response.status(201).json({ user: userWithoutPasswordAndCode });
   }
 }
 

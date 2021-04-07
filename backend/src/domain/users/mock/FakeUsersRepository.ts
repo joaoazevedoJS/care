@@ -27,12 +27,15 @@ class FakeUsersRepository implements IUsersRepository {
     password,
     name,
     verification_code,
+    user_type_id,
   }: ICreateUserDTO): Promise<IUser> {
     const user: IUser = {
       id: uuid(),
       email,
       name,
       password,
+      bio: '',
+      user_type_id,
       user_avatar: '',
       verified_account: false,
       verification_code,
