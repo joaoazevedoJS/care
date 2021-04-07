@@ -32,9 +32,6 @@ class Users implements IUsers {
   @Column()
   public bio: string;
 
-  @Column('bool')
-  public is_doctor: boolean;
-
   @Column()
   public user_type_id: string;
 

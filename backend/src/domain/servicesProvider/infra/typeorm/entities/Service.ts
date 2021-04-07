@@ -8,7 +8,7 @@ import {
 
 import IService from '@domain/servicesProvider/entities/IServices';
 
-@Entity('users')
+@Entity('services')
 class Service implements IService {
   @PrimaryGeneratedColumn('uuid')
   id: string;

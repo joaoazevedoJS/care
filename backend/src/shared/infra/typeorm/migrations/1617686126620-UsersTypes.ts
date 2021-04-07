@@ -1,5 +1,4 @@
-import UsersType from '@domain/users/infra/typeorm/entities/UsersType';
-import { getRepository, MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export default class UsersTypes1617686126620 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -31,24 +30,6 @@ export default class UsersTypes1617686126620 implements MigrationInterface {
         ],
       }),
     );
-
-    const userTypeRepository = getRepository(UsersType);
-
-    const admin = userTypeRepository.create({
-      type: 'admin',
-    });
-
-    const doctor = userTypeRepository.create({
-      type: 'doctor',
-    });
-
-    const user = userTypeRepository.create({
-      type: 'user',
-    });
-
-    userTypeRepository.save(admin);
-    userTypeRepository.save(doctor);
-    userTypeRepository.save(user);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
