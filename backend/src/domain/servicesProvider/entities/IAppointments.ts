@@ -7,7 +7,11 @@ interface IAppointment {
 
   user_id: string;
 
+  status_id: string;
+
   time_minutes: number;
+
+  service_time: number;
 
   date: Date;
 

@@ -3,7 +3,7 @@ import { Connection } from 'typeorm';
 
 import UsersType from '@domain/users/infra/typeorm/entities/UsersType';
 
-export default class CreateUsers implements Seeder {
+export default class CreateUsersTypes implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
     await connection
       .createQueryBuilder()

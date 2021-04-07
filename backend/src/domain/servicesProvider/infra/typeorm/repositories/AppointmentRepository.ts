@@ -4,6 +4,7 @@ import IAppointmentRepository from '@domain/servicesProvider/repositories/IAppoi
 import ICreateAppointmentDTO from '@domain/servicesProvider/dtos/ICreateAppointmentDTO';
 import IAppointment from '@domain/servicesProvider/entities/IAppointments';
 
+import IGetAppointmentsByStatusDTO from '@domain/servicesProvider/dtos/IGetAppointmentsByStatusDTO';
 import Appointment from '../entities/Appointment';
 
 class AppointmentRepository implements IAppointmentRepository {
@@ -35,6 +36,17 @@ class AppointmentRepository implements IAppointmentRepository {
 
   public async findAll(service_id: string): Promise<IAppointment[]> {
     const appointments = await this.repository.find({ where: { service_id } });
+
+    return appointments;
+  }
+
+  public async findByStatus({
+    service_id,
+    status_id,
+  }: IGetAppointmentsByStatusDTO): Promise<IAppointment[]> {
+    const appointments = await this.repository.find({
+      where: { service_id, status_id },
+    });
 
     return appointments;
   }

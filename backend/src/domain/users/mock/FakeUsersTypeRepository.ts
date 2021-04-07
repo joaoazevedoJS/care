@@ -5,9 +5,26 @@ class UsersTypeRepository implements IUsersTypeRepository {
   private types: IUsersType[] = [];
 
   constructor() {
-    const admin = { id: '1', type: 'admin' };
-    const doctor = { id: '2', type: 'doctor' };
-    const user = { id: '3', type: 'user' };
+    const admin = {
+      id: '1',
+      type: 'admin',
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+
+    const doctor = {
+      id: '2',
+      type: 'doctor',
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+
+    const user = {
+      id: '3',
+      type: 'user',
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
 
     this.types.push(admin);
     this.types.push(doctor);

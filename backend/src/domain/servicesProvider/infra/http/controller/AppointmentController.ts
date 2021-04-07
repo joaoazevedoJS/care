@@ -11,7 +11,9 @@ class AppointmentController {
 
     const getAppointments = container.resolve(GetAppointmentsService);
 
-    const appointments = await getAppointments.execute(service_id);
+    const appointments = await getAppointments.execute({
+      service_id,
+    });
 
     return response.status(200).json({ appointments });
   }

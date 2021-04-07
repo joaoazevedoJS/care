@@ -6,6 +6,8 @@ interface ICreateAppointmentDTO {
   time_minutes: number;
 
   date: Date;
+
+  status_id: string;
 }
 
 export default ICreateAppointmentDTO;
