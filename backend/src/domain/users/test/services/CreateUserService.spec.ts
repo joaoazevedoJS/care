@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import AppError from '@shared/errors/AppError';
 
 import FakeUsersRepository from '@domain/users/mock/FakeUsersRepository';
+import FakeUsersTypeRepository from '@domain/users/mock/FakeUsersTypeRepository';
 import FakeHashProvider from '@domain/users/providers/HashProvider/mock/FakeHashProvider';
 import FakeGenerateCodeProvider from '@shared/providers/GenerateCodeProvider/mock/FakeGenerateCodeProvider';
 
@@ -12,12 +13,14 @@ import FakeSendMailProvider from '@shared/providers/SendMailProvider/mock/FakeSe
 describe('CreateUser', () => {
   it('should be able to create a new user', async () => {
     const fakeRepository = new FakeUsersRepository();
+    const fakeUserTypeRepository = new FakeUsersTypeRepository();
     const fakeHash = new FakeHashProvider();
     const fakeGenerateCode = new FakeGenerateCodeProvider();
     const fakeSendMail = new FakeSendMailProvider();
 
     const createUser = new CreateUserService(
       fakeRepository,
+      fakeUserTypeRepository,
       fakeHash,
       fakeGenerateCode,
       fakeSendMail,
@@ -34,12 +37,14 @@ describe('CreateUser', () => {
 
   it('should not be able to create a new user with same email from another', async () => {
     const fakeRepository = new FakeUsersRepository();
+    const fakeUserTypeRepository = new FakeUsersTypeRepository();
     const fakeHash = new FakeHashProvider();
     const fakeGenerateCode = new FakeGenerateCodeProvider();
     const fakeSendMail = new FakeSendMailProvider();
 
     const createUser = new CreateUserService(
       fakeRepository,
+      fakeUserTypeRepository,
       fakeHash,
       fakeGenerateCode,
       fakeSendMail,

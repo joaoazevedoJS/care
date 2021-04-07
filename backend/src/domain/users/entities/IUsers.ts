@@ -7,6 +7,10 @@ interface IUsers {
 
   password: string;
 
+  bio: string;
+
+  user_type_id: string;
+
   user_avatar: string;
 
   verified_account: boolean;
