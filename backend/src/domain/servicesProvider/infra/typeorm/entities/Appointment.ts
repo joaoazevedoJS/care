@@ -12,7 +12,7 @@ import IAppointment from '@domain/servicesProvider/entities/IAppointments';
 import Users from '@domain/users/infra/typeorm/entities/Users';
 import Service from './Service';
 
-@Entity('users')
+@Entity('appointments')
 class Appointment implements IAppointment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
