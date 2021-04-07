@@ -29,6 +29,12 @@ class ServicesRepository implements IServicesRepository {
   public async update(service: IService): Promise<void> {
     await this.repository.save(service);
   }
+
+  public async findAll(): Promise<IService[]> {
+    const services = await this.repository.find();
+
+    return services;
+  }
 }
 
 export default ServicesRepository;

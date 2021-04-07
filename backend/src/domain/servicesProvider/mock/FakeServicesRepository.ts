@@ -4,7 +4,7 @@ import IServicesRepository from '@domain/servicesProvider/repositories/IServices
 import IService from '@domain/servicesProvider/entities/IServices';
 import ICreateServiceDTO from '@domain/servicesProvider/dtos/ICreateServiceDTO';
 
-class ServicesRepositories implements IServicesRepository {
+class FakeServicesRepository implements IServicesRepository {
   private repository: IService[] = [];
 
   public async create({
@@ -44,6 +44,10 @@ class ServicesRepositories implements IServicesRepository {
       this.repository.push(service);
     }
   }
+
+  public async findAll(): Promise<IService[]> {
+    return this.repository;
+  }
 }
 
-export default ServicesRepositories;
+export default FakeServicesRepository;

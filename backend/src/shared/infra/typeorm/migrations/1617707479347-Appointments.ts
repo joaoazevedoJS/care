@@ -48,6 +48,30 @@ export default class Appointments1617707479347 implements MigrationInterface {
             default: 'now()',
           },
         ],
+        foreignKeys: [
+          {
+            name: 'Service',
+            columnNames: ['service_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'services',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'Doctor',
+            columnNames: ['doctor_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'users',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'User',
+            columnNames: ['user_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'users',
+            onUpdate: 'CASCADE',
+          },
+        ],
       }),
     );
   }
