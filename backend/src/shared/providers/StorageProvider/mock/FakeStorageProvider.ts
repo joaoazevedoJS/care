@@ -1,3 +1,4 @@
+import ICVS from '../models/ICVS';
 import IStorageProvider from '../models/IStorageProvider';
 
 class FakeStorageProvider implements IStorageProvider {
@@ -15,6 +16,20 @@ class FakeStorageProvider implements IStorageProvider {
     );
 
     this.storage.splice(findIndex, 1);
+  }
+
+  public async readCSV(file: string): Promise<ICVS> {
+    await this.saveFile(file);
+
+    const titles = ['nome', 'descricao', 'preco', 'porcentagem'];
+
+    const columns = [
+      ['Consulta', 'Consulta básica', '50', '10'],
+      ['Consulta', 'Consulta básica', '50', '10'],
+      ['Consulta', 'Consulta básica', '50', '10'],
+    ];
+
+    return { titles, columns };
   }
 }
 
