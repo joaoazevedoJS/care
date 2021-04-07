@@ -17,12 +17,7 @@ routes.use('/users', usersRoutes);
 routes.use('/mails', mailsRoutes);
 routes.use('/services', servicesRoutes);
 
-routes.use(
-  '/services/:service_id/appointment',
-  Authorization,
-  appointmentRoutes,
-);
-
+routes.use('/appointment', Authorization, appointmentRoutes);
 routes.use('/admin/doctor', Authorization, doctorRoutes);
 
 export default routes;

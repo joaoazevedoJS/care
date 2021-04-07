@@ -1,11 +1,16 @@
 import { inject, injectable } from 'tsyringe';
 
+import AppError from '@shared/errors/AppError';
+
 import IStorageProvider from '@shared/providers/StorageProvider/models/IStorageProvider';
+import IUsersRepository from '@domain/users/repositories/IUsersRepository';
+import IUsersTypeRepository from '@domain/users/repositories/IUsersTypeRepository';
 import IService from '../entities/IServices';
 import IServicesRepository from '../repositories/IServicesRepository';
 
-interface IFile {
-  path: string;
+interface IRequest {
+  file: { path: string };
+  admin_id: string;
 }
 
 @injectable()
@@ -16,9 +21,23 @@ class ImportCSVServiceService {
 
     @inject('StorageProvider')
     private storageProvider: IStorageProvider,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+
+    @inject('UsersTypeRepository')
+    private usersTypeRepository: IUsersTypeRepository,
   ) {}
 
-  public async execute(file: IFile): Promise<IService[]> {
+  public async execute({ file, admin_id }: IRequest): Promise<IService[]> {
+    const admin = await this.usersRepository.findById(admin_id);
+
+    const isAdmin = await this.usersTypeRepository.getAdminTypeId();
+
+    if (!admin || admin.user_type_id !== isAdmin) {
+      throw new AppError('Only admin can import csv!', 401);
+    }
+
     const services: Array<IService> = [];
 
     const { titles, columns } = await this.storageProvider.readCSV(file.path);

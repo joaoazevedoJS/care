@@ -43,6 +43,10 @@ class ContractServiceService {
       throw new AppError('Appointment not found.', 404);
     }
 
+    if (user.id === appointment.doctor_id) {
+      throw new AppError('You cannot hire your services', 401);
+    }
+
     appointment.user_id = user_id;
 
     await this.appointmentRepository.update(appointment);
