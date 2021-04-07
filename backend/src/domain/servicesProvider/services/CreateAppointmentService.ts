@@ -8,6 +8,7 @@ import ICreateAppointmentDTO from '../dtos/ICreateAppointmentDTO';
 import IAppointment from '../entities/IAppointments';
 import IAppointmentRepository from '../repositories/IAppointmentRepository';
 import IServicesRepository from '../repositories/IServicesRepository';
+import IStatusRepository from '../repositories/IStatusRepository';
 
 @injectable()
 class CreateAppointmentService {
@@ -23,6 +24,9 @@ class CreateAppointmentService {
 
     @inject('AppointmentRepository')
     private appointmentRepository: IAppointmentRepository,
+
+    @inject('StatusRepository')
+    private statusRepository: IStatusRepository,
   ) {}
 
   public async execute({
@@ -30,7 +34,7 @@ class CreateAppointmentService {
     doctor_id,
     time_minutes,
     date,
-  }: ICreateAppointmentDTO): Promise<IAppointment> {
+  }: Omit<ICreateAppointmentDTO, 'status_id'>): Promise<IAppointment> {
     const doctor = await this.usersRepository.findById(doctor_id);
 
     const isDoctor = await this.usersTypeRepository.getDoctorTypeId();
@@ -52,11 +56,14 @@ class CreateAppointmentService {
       throw new AppError('Invalide date', 401);
     }
 
+    const status_id = await this.statusRepository.getOpeningId();
+
     const appointment = await this.appointmentRepository.create({
       service_id,
       doctor_id,
       date,
       time_minutes,
+      status_id,
     });
 
     return appointment;
