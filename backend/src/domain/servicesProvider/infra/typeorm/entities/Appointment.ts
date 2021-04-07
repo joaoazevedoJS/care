@@ -10,7 +10,9 @@ import {
 
 import IAppointment from '@domain/servicesProvider/entities/IAppointments';
 import Users from '@domain/users/infra/typeorm/entities/Users';
+
 import Service from './Service';
+import Status from './Status';
 
 @Entity('appointments')
 class Appointment implements IAppointment {
@@ -23,6 +25,13 @@ class Appointment implements IAppointment {
   @ManyToOne(() => Service, { eager: true })
   @JoinColumn({ name: 'service_id' })
   service: Service;
+
+  @Column()
+  status_id: string;
+
+  @ManyToOne(() => Status, { eager: true })
+  @JoinColumn({ name: 'status_id' })
+  status: Service;
 
   @Column()
   doctor_id: string;
@@ -40,6 +49,9 @@ class Appointment implements IAppointment {
 
   @Column('int')
   time_minutes: number;
+
+  @Column('int')
+  service_time: number;
 
   @Column('time with time zone')
   date: Date;

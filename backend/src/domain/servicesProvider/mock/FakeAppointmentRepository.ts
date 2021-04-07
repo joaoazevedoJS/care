@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import IAppointmentRepository from '../repositories/IAppointmentRepository';
 import IAppointment from '../entities/IAppointments';
 import ICreateAppointmentDTO from '../dtos/ICreateAppointmentDTO';
+import IGetAppointmentsByStatusDTO from '../dtos/IGetAppointmentsByStatusDTO';
 
 class FakeAppointmentRepository implements IAppointmentRepository {
   private repository: IAppointment[] = [];
@@ -12,6 +13,7 @@ class FakeAppointmentRepository implements IAppointmentRepository {
     doctor_id,
     date,
     time_minutes,
+    status_id,
   }: ICreateAppointmentDTO): Promise<IAppointment> {
     const appointment: IAppointment = {
       id: uuid(),
@@ -19,6 +21,8 @@ class FakeAppointmentRepository implements IAppointmentRepository {
       doctor_id,
       user_id: '',
       date,
+      status_id,
+      service_time: 0,
       time_minutes,
       created_at: new Date(),
       updated_at: new Date(),
@@ -54,6 +58,19 @@ class FakeAppointmentRepository implements IAppointmentRepository {
   public async findAll(service_id: string): Promise<IAppointment[]> {
     const appointments = this.repository.filter(
       appointment => appointment.service_id === service_id,
+    );
+
+    return appointments;
+  }
+
+  public async findByStatus({
+    status_id,
+    service_id,
+  }: IGetAppointmentsByStatusDTO): Promise<IAppointment[]> {
+    const appointments = this.repository.filter(
+      appointment =>
+        appointment.service_id === service_id &&
+        appointment.status_id === status_id,
     );
 
     return appointments;

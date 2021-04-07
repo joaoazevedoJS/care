@@ -7,6 +7,7 @@ import FakeUsersRepository from '@domain/users/mock/FakeUsersRepository';
 import FakeUsersTypeRepository from '@domain/users/mock/FakeUsersTypeRepository';
 import FakeServicesRepository from '@domain/servicesProvider/mock/FakeServicesRepository';
 import FakeAppointmentRepository from '@domain/servicesProvider/mock/FakeAppointmentRepository';
+import FakeStatusRepository from '@domain/servicesProvider/mock/FakeStatusRepository';
 
 import CreateAppointmentService from '@domain/servicesProvider/services/CreateAppointmentService';
 
@@ -15,13 +16,15 @@ describe('Create Appointment', () => {
     const fakeUserRepository = new FakeUsersRepository();
     const fakeUserTypeRepository = new FakeUsersTypeRepository();
     const fakeServiceRepository = new FakeServicesRepository();
-    const fakeAppointmentReporitory = new FakeAppointmentRepository();
+    const fakeAppointmentRepository = new FakeAppointmentRepository();
+    const fakeStatusRepository = new FakeStatusRepository();
 
     const createAppointment = new CreateAppointmentService(
       fakeUserRepository,
       fakeUserTypeRepository,
       fakeServiceRepository,
-      fakeAppointmentReporitory,
+      fakeAppointmentRepository,
+      fakeStatusRepository,
     );
 
     const doctor = await fakeUserRepository.create({
@@ -44,6 +47,7 @@ describe('Create Appointment', () => {
       service_id: service.id,
       date: addDays(new Date(), 1),
       time_minutes: 43,
+      status_id: '1',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -53,13 +57,15 @@ describe('Create Appointment', () => {
     const fakeUserRepository = new FakeUsersRepository();
     const fakeUserTypeRepository = new FakeUsersTypeRepository();
     const fakeServiceRepository = new FakeServicesRepository();
-    const fakeAppointmentReporitory = new FakeAppointmentRepository();
+    const fakeAppointmentRepository = new FakeAppointmentRepository();
+    const fakeStatusRepository = new FakeStatusRepository();
 
     const createAppointment = new CreateAppointmentService(
       fakeUserRepository,
       fakeUserTypeRepository,
       fakeServiceRepository,
-      fakeAppointmentReporitory,
+      fakeAppointmentRepository,
+      fakeStatusRepository,
     );
 
     const user = await fakeUserRepository.create({
@@ -83,6 +89,7 @@ describe('Create Appointment', () => {
         service_id: service.id,
         date: addDays(new Date(), 1),
         time_minutes: 43,
+        status_id: '1',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -91,13 +98,15 @@ describe('Create Appointment', () => {
     const fakeUserRepository = new FakeUsersRepository();
     const fakeUserTypeRepository = new FakeUsersTypeRepository();
     const fakeServiceRepository = new FakeServicesRepository();
-    const fakeAppointmentReporitory = new FakeAppointmentRepository();
+    const fakeAppointmentRepository = new FakeAppointmentRepository();
+    const fakeStatusRepository = new FakeStatusRepository();
 
     const createAppointment = new CreateAppointmentService(
       fakeUserRepository,
       fakeUserTypeRepository,
       fakeServiceRepository,
-      fakeAppointmentReporitory,
+      fakeAppointmentRepository,
+      fakeStatusRepository,
     );
 
     const doctor = await fakeUserRepository.create({
@@ -114,6 +123,7 @@ describe('Create Appointment', () => {
         service_id: 'test_id',
         date: addDays(new Date(), 1),
         time_minutes: 43,
+        status_id: '1',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -122,13 +132,15 @@ describe('Create Appointment', () => {
     const fakeUserRepository = new FakeUsersRepository();
     const fakeUserTypeRepository = new FakeUsersTypeRepository();
     const fakeServiceRepository = new FakeServicesRepository();
-    const fakeAppointmentReporitory = new FakeAppointmentRepository();
+    const fakeAppointmentRepository = new FakeAppointmentRepository();
+    const fakeStatusRepository = new FakeStatusRepository();
 
     const createAppointment = new CreateAppointmentService(
       fakeUserRepository,
       fakeUserTypeRepository,
       fakeServiceRepository,
-      fakeAppointmentReporitory,
+      fakeAppointmentRepository,
+      fakeStatusRepository,
     );
 
     const doctor = await fakeUserRepository.create({
@@ -152,6 +164,7 @@ describe('Create Appointment', () => {
         service_id: service.id,
         date: new Date('1111/11/11'),
         time_minutes: 43,
+        status_id: '1',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
