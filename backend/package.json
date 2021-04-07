@@ -6,6 +6,7 @@
   "scripts": {
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --respawn --transpile-only --ignore-watch node_modules --no-notify src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "seed:run": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed",
     "test": "jest"
   },
   "keywords": [],
@@ -52,6 +53,7 @@
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.4.0",
     "typeorm": "^0.2.30",
+    "typeorm-seeding": "^1.6.1",
     "uuid": "^8.3.2"
   }
 }
