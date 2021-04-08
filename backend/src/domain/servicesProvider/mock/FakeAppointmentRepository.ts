@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
+import IUsers from '@domain/users/entities/IUsers';
 import IAppointmentRepository from '../repositories/IAppointmentRepository';
 import IAppointment from '../entities/IAppointments';
 import ICreateAppointmentDTO from '../dtos/ICreateAppointmentDTO';
@@ -22,6 +23,7 @@ class FakeAppointmentRepository implements IAppointmentRepository {
       user_id: '',
       date,
       status_id,
+      doctor: {} as IUsers,
       service_time: 0,
       time_minutes,
       created_at: new Date(),

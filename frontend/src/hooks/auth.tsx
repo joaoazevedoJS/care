@@ -7,16 +7,20 @@ import React, {
 } from 'react';
 
 import api from '../services/api';
+import { useToast } from './toast';
 
 export interface User {
   id: string;
   email: string;
   name: string;
   user_avatar: string;
-  user_type_id: string;
   verified_account: boolean;
   mail_resend_count: number;
   mail_limit_date_resend: Date;
+  user_type: {
+    id: string;
+    type: 'admin' | 'doctor' | 'user';
+  };
 }
 
 interface SignInCredentials {
@@ -24,16 +28,24 @@ interface SignInCredentials {
   password: string;
 }
 
+interface SignUpData extends SignInCredentials {
+  name: string;
+  isDoctor?: boolean;
+}
+
 interface AuthContextData {
   token: string;
   getUser(): Promise<User | undefined>;
   signIn(credentials: SignInCredentials): Promise<void>;
+  signUp(data: SignUpData): Promise<void>;
   signOut(): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: FC = ({ children }) => {
+  const { addToast } = useToast();
+
   const [UserToken, setUserToken] = useState<string>(() => {
     const token = localStorage.getItem('@Care:token');
 
@@ -44,18 +56,50 @@ const AuthProvider: FC = ({ children }) => {
     return '';
   });
 
-  const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('/sessions/signin', {
-      email,
-      password,
-    });
+  const signIn = useCallback(
+    async ({ email, password }) => {
+      try {
+        const response = await api.post('/sessions/signin', {
+          email,
+          password,
+        });
 
-    const { token } = response.data;
+        const { token } = response.data;
 
-    localStorage.setItem('@Care:token', token);
+        localStorage.setItem('@Care:token', token);
 
-    setUserToken(token);
-  }, []);
+        setUserToken(token);
+      } catch (e) {
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Ocorreu um erro ao fazer login, cheque as credenciais',
+        });
+      }
+    },
+    [addToast],
+  );
+
+  const signUp = useCallback(
+    async ({ email, password, name, isDoctor }) => {
+      try {
+        const route = isDoctor ? '/admin/doctor/signup' : '/users/signup';
+
+        await api.post(route, {
+          email,
+          password,
+          name,
+        });
+      } catch (error) {
+        addToast({
+          type: 'error',
+          title: 'Erro no cadastro',
+          description: 'Ocorreu um erro ao realizar cadastro, tente novamente!',
+        });
+      }
+    },
+    [addToast],
+  );
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@Care:token');
@@ -81,7 +125,7 @@ const AuthProvider: FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ token: UserToken, getUser, signIn, signOut }}
+      value={{ token: UserToken, getUser, signIn, signUp, signOut }}
     >
       {children}
     </AuthContext.Provider>

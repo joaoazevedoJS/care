@@ -94,6 +94,7 @@ Caso não tenha o insomnia, você pode instalar gratuitamente no site: https://i
 | Rota | Método | Params | Descrição | Observação | Auth |
 | :--- | :--- | :--- | :--- |:--- | :--- | 
 | `/sessions/signin` | Post   | `email` `password` - body params | Criar uma sessão para usuário logar no site |  | false |
+| `/sessions/user` | Get   | | Pegar informações do usuário logado |  | true |
 
 #### Rota de Emails
 
@@ -118,4 +119,43 @@ Caso não tenha o insomnia, você pode instalar gratuitamente no site: https://i
 
 #### Rota de Apontamentos
 
-> Não preenchido por causa do tempo, assim que acabar o front preencho novamente!
+| Rota | Método | Params | Descrição | Observação | Auth |
+| :--- | :--- | :--- | :--- |:--- | :--- |
+| `/appointment/resume/:appointment_id` | Get   | | Obter resumo do appointment | Nesse end-point você pode ver a comissão do doutor, o status, o tempo levado na consulta, etc... | true |
+| `/appointment/:service_id` | Get   | | Pegar todos appointments do serviços | | true |
+| `/appointment/:service_id` | Post   | `time_minutes` `date` | Cadastrar um novo appointment | o `time_minutes` é o tempo que medico vai estar disponivel no dia (`date`). Somente um admin pode cadastrar serviços | true |
+| `/appointment/contract/:appointment_id` | Patch   | | O usuários pode agendar uma consulta | Todos os usuário autenticado pode agendar! | true |
+| `/appointment/:service_id/openings` | Get   | | Pegar todos appointments em abertos | | true |
+| `/appointment/:service_id/progress` | Get   | | Pegar todos appointments que estão em andamento | | true |
+| `/appointment/:service_id/closeds` | Get   | | Pegar todos appointments foram finalizadas | | true |
+| `/appointment/:appointment_id/progress` | Put   | | Atualizar o status do appointment para em andamento | | true |
+| `/appointment/:appointment_id/progress/cancel` | Put   | | Voltar o status do appointment para em aberto | | true |
+| `/appointment/:appointment_id/closed` | Put   | | Atualizar o status do appointment para fechado | | true |
+
+### Configurando o front-end
+
+Primeiro vamos acessar a pasta front-end
+
+> caso você esteje na pasta back-end use `cd ..`
+
+`cd backend`
+
+#### 1. Instale as dependencias do projeto:
+  
+```ts
+yarn
+
+// ou use
+
+npm i
+```
+
+#### 2. Rode o Projeto
+
+```ts
+yarn start
+
+// ou use
+
+npm start
+```

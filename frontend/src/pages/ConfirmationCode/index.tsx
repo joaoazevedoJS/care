@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { FC, useCallback, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -10,37 +10,32 @@ import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container } from './styles';
-import { useAuth } from '../../hooks/auth';
+import api from '../../services/api';
+import { useToast } from '../../hooks/toast';
 
 interface DataForm {
-  email: string;
-  password: string;
-  name: string;
+  code: string;
 }
 
-const SignUp: FC = () => {
+const ConfirmationCode: FC = () => {
   const history = useHistory();
 
-  const { signUp } = useAuth();
-
   const formRef = useRef<FormHandles>(null);
+
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(
     async (data: DataForm) => {
       try {
         const schema = Yup.object().shape({
-          email: Yup.string().required('E-mail obrigatório'),
-          password: Yup.string().required('Senha obrigatório'),
-          name: Yup.string().required('Nome obrigatório'),
+          code: Yup.string()
+            .length(6, 'Código inválido')
+            .required('Informe o código!'),
         });
 
         await schema.validate(data, { abortEarly: false });
 
-        await signUp({
-          email: data.email,
-          name: data.name,
-          password: data.password,
-        });
+        await api.patch('/users/authenticated', { code: data.code });
 
         history.push('/');
       } catch (err) {
@@ -48,31 +43,40 @@ const SignUp: FC = () => {
           const errors = getValidationErrors(err);
 
           formRef.current?.setErrors(errors);
+
+          return;
         }
+
+        addToast({
+          title: 'Código inválido',
+          type: 'error',
+        });
       }
     },
-    [history, signUp],
+    [addToast, history],
   );
+
+  const handleResendCode = useCallback(async () => {
+    await api.post('/mails/resendcode');
+  }, []);
 
   return (
     <Container>
       <Form ref={formRef} onSubmit={handleSubmit}>
-        <h1>Entrar</h1>
+        <h1>Confirme sua conta!</h1>
 
-        <Input name="email" placeholder="E-mail: " />
-        <Input name="name" placeholder="Nome: " />
-        <Input name="password" type="password" placeholder="Senha:" />
+        <Input name="code" placeholder="Código: " maxLength={6} />
 
         <Button type="submit" uppercase>
-          Cadastrar
+          Confirmar conta!
         </Button>
 
-        <Link className="signin" to="/">
-          Acessar conta!
-        </Link>
+        <Button type="button" blue onClick={handleResendCode}>
+          Reenviar código
+        </Button>
       </Form>
     </Container>
   );
 };
 
-export default SignUp;
+export default ConfirmationCode;

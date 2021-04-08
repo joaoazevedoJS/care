@@ -9,6 +9,8 @@ import React, {
 
 import api from '../services/api';
 
+import { User } from './auth';
+
 export interface Service {
   id: string;
   name: string;
@@ -18,8 +20,16 @@ export interface Service {
   percentage_commission: number;
 }
 
+export interface Appointment {
+  id: string;
+  date: Date;
+  time_minutes: 40;
+  doctor: User;
+}
+
 interface ServiceContextData {
   services: Service[];
+  getAppointments(service_id: string): Promise<Appointment[]>;
 }
 
 const ServiceContext = createContext<ServiceContextData>(
@@ -35,8 +45,14 @@ const ServiceProvider: FC = ({ children }) => {
       .then(response => setServices(response.data));
   }, []);
 
+  const getAppointments = useCallback(async (service_id: string) => {
+    const response = await api.get<Appointment[]>(`/appointment/${service_id}`);
+
+    return response.data;
+  }, []);
+
   return (
-    <ServiceContext.Provider value={{ services }}>
+    <ServiceContext.Provider value={{ services, getAppointments }}>
       {children}
     </ServiceContext.Provider>
   );

@@ -1,19 +1,23 @@
 import { FC, useEffect, useState } from 'react';
-import Button from '../../components/Button';
+import { useHistory } from 'react-router-dom';
 
 import { useAuth, User } from '../../hooks/auth';
-import { useService } from '../../hooks/services';
+
+import Button from '../../components/Button';
+
+import DefaultAvatar from '../../assets/images/defaultAvatar.png';
+import ListServices from '../../components/ListServices';
+
+import ConfirmationCode from '../ConfirmationCode';
 
 import { Container } from './styles';
 
-import DefaultImage from '../../assets/images/defaultImage.png';
-import DefaultAvatar from '../../assets/images/defaultAvatar.png';
-
 const Dashboard: FC = () => {
+  const history = useHistory();
+
   const [user, setUser] = useState<User>();
 
   const { getUser, signOut } = useAuth();
-  const { services } = useService();
 
   useEffect(() => {
     async function load() {
@@ -29,52 +33,45 @@ const Dashboard: FC = () => {
     return <h1>loading...</h1>;
   }
 
+  if (!user.verified_account) {
+    return <ConfirmationCode />;
+  }
+
   return (
     <Container>
       <header>
-        <img
-          src={
-            user.user_avatar
-              ? `http://localhost:3333/uploads/${user.user_avatar}`
-              : DefaultAvatar
-          }
-          alt={user.name}
-        />
-
         <div>
-          <strong>Bem vindo {user.name}</strong>
+          <img
+            src={
+              user.user_avatar
+                ? `http://localhost:3333/uploads/${user.user_avatar}`
+                : DefaultAvatar
+            }
+            alt={user.name}
+          />
 
-          <Button blue onClick={signOut}>
-            Sair
-          </Button>
+          <div>
+            <strong>Bem vindo {user.name}</strong>
+
+            <Button blue onClick={signOut}>
+              Sair
+            </Button>
+          </div>
         </div>
+
+        {user.user_type.type === 'admin' && (
+          <Button
+            onClick={() => {
+              history.push('/csv');
+            }}
+          >
+            Importar CSV
+          </Button>
+        )}
       </header>
 
       <main>
-        <ul>
-          {services.map(service => (
-            <li key={service.id}>
-              <img
-                src={
-                  service.image
-                    ? `http://localhost:3333/uploads/${service.image}`
-                    : DefaultImage
-                }
-                alt="service"
-              />
-
-              <div>
-                <p>{service.name}</p>
-                <span>
-                  {new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  }).format(service.price)}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <ListServices />
       </main>
     </Container>
   );
