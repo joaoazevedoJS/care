@@ -23,6 +23,8 @@ class GetAppointmentsService {
     service_id,
     status,
   }: IRequest): Promise<IAppointment[]> {
+    let appointments: IAppointment[] = [];
+
     if (status) {
       const statusType = {
         opening: await this.statusRepository.getOpeningId(),
@@ -32,17 +34,26 @@ class GetAppointmentsService {
 
       const status_id = statusType[status];
 
-      const appointments = await this.appointmentRepository.findByStatus({
+      appointments = await this.appointmentRepository.findByStatus({
         service_id,
         status_id,
       });
-
-      return appointments;
+    } else {
+      appointments = await this.appointmentRepository.findAll(service_id);
     }
 
-    const appointments = await this.appointmentRepository.findAll(service_id);
+    const appointmentWithoutDoctorPassword = appointments.map(appointment => {
+      return {
+        ...appointment,
+        doctor: {
+          ...appointment.doctor,
+          password: undefined,
+          verification_code: undefined,
+        },
+      };
+    });
 
-    return appointments;
+    return appointmentWithoutDoctorPassword;
   }
 }
 

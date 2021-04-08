@@ -15,7 +15,7 @@ class ContractServiceController {
       appointment_id,
     });
 
-    return response.status(201).json({ appointment });
+    return response.status(201).json(appointment);
   }
 }
 

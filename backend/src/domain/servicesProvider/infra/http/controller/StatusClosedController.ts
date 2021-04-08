@@ -15,7 +15,7 @@ class StatusClosedController {
       status: 'closed',
     });
 
-    return response.status(200).json({ appointments });
+    return response.status(200).json(appointments);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -30,7 +30,7 @@ class StatusClosedController {
       service_time,
     });
 
-    return response.status(201).json({ appointment });
+    return response.status(201).json(appointment);
   }
 }
 

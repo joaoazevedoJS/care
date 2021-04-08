@@ -14,7 +14,7 @@ class ImportCSVServiceController {
       file,
     });
 
-    return response.status(201).json({ services });
+    return response.status(201).json(services);
   }
 }
 
