@@ -11,6 +11,7 @@
   "migrations": [
     "./src/shared/infra/typeorm/migrations/*.ts"
   ],
+  "seeds": ["./src/shared/infra/typeorm/seeds/*.ts"],
   "cli": {
     "migrationsDir": "./src/shared/infra/typeorm/migrations"
   }
