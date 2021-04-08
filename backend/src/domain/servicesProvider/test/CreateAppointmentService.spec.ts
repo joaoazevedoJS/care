@@ -47,7 +47,6 @@ describe('Create Appointment', () => {
       service_id: service.id,
       date: addDays(new Date(), 1),
       time_minutes: 43,
-      status_id: '1',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -89,7 +88,6 @@ describe('Create Appointment', () => {
         service_id: service.id,
         date: addDays(new Date(), 1),
         time_minutes: 43,
-        status_id: '1',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -123,7 +121,6 @@ describe('Create Appointment', () => {
         service_id: 'test_id',
         date: addDays(new Date(), 1),
         time_minutes: 43,
-        status_id: '1',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -164,7 +161,6 @@ describe('Create Appointment', () => {
         service_id: service.id,
         date: new Date('1111/11/11'),
         time_minutes: 43,
-        status_id: '1',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
