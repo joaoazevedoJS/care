@@ -36,7 +36,7 @@ class Appointment implements IAppointment {
   @Column()
   doctor_id: string;
 
-  @ManyToOne(() => Users)
+  @ManyToOne(() => Users, { eager: true })
   @JoinColumn({ name: 'doctor_id' })
   doctor: Users;
 

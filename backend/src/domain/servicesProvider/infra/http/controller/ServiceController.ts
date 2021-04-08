@@ -11,7 +11,7 @@ class ServiceController {
 
     const services = await getServices.execute();
 
-    return response.status(200).json({ services });
+    return response.status(200).json(services);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -36,7 +36,7 @@ class ServiceController {
       service_id: service.id,
     });
 
-    return response.status(201).json({ service });
+    return response.status(201).json(service);
   }
 }
 

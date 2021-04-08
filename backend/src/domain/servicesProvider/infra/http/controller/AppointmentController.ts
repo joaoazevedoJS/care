@@ -16,7 +16,7 @@ class AppointmentController {
       service_id,
     });
 
-    return response.status(200).json({ appointments });
+    return response.status(200).json(appointments);
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
@@ -45,7 +45,7 @@ class AppointmentController {
       time_minutes,
     });
 
-    return response.status(201).json({ appointment });
+    return response.status(201).json(appointment);
   }
 }
 

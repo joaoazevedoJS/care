@@ -35,7 +35,7 @@ class Users implements IUsers {
   @Column()
   public user_type_id: string;
 
-  @ManyToOne(() => UsersType)
+  @ManyToOne(() => UsersType, { eager: true })
   @JoinColumn({ name: 'user_type_id' })
   public user_type: UsersType;
 

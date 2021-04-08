@@ -15,7 +15,7 @@ class StatusProgressController {
       status: 'progress',
     });
 
-    return response.status(200).json({ appointments });
+    return response.status(200).json(appointments);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -28,7 +28,7 @@ class StatusProgressController {
       status: 'progress',
     });
 
-    return response.status(201).json({ appointment });
+    return response.status(201).json(appointment);
   }
 }
 
