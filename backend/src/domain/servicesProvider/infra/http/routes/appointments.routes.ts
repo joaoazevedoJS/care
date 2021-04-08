@@ -15,6 +15,7 @@ const statusClosedController = new StatusClosedController();
 const contractServiceController = new ContractServiceController();
 
 appointmentRoutes.get('/:service_id', appointmentController.index);
+appointmentRoutes.get('/resume/:appointment_id', appointmentController.show);
 appointmentRoutes.post('/:service_id', appointmentController.create);
 
 appointmentRoutes.patch(
